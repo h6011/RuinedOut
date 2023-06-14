@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94e24d793fea0b448504134c2b77666, type: 3}
+  m_Name: Cheese Slice
+  m_EditorClassIdentifier: 
+  ItemName: Cheese Slice
+  ItemType: 1
+  Weight: 0
+  Prefab: {fileID: 5417087648581508394, guid: d6e9920b81d5ed24b9b0972c23588a19, type: 3}
+  Description: a slice of Cheese
+  Hungry: 20
+  Thirsty: 4
+  Damage: 0
+  Range: 0
+  Durability: 0
