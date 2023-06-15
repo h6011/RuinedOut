@@ -27,7 +27,6 @@ public class CanvasManager : MonoBehaviour
     {
         instance = this;
         MouseInfoText = GetTMP_TextFromName("MouseInfo");
-        GetUIFromName("MouseInfo").SetActive(false);
     }
 
     private void Start()
@@ -59,6 +58,7 @@ public class CanvasManager : MonoBehaviour
 
     private void initUI()
     {
+        GetUIFromName("MouseInfo").SetActive(false);
         MouseInfoUI.SetActive(false);
         InventoryUI.SetActive(false);
         ItemInfoUI.SetActive(false);

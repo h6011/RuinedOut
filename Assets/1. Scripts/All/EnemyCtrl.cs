@@ -9,9 +9,10 @@ public class EnemyCtrl : MonoBehaviour
     public float MaxHp = 20;
     public float Hp = 20;
 
-    Rigidbody rigidbody;
+    public bool isDead = false;
+
     NavMeshAgent navMeshAgent;
-    BoxCollider collider;
+    CapsuleCollider capsuleCollider;
 
     private float AttackTick = 1.0f;
     private float AttackTickCurr;
@@ -25,8 +26,7 @@ public class EnemyCtrl : MonoBehaviour
 
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<BoxCollider>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = AllowedDistance;
     }
@@ -36,9 +36,26 @@ public class EnemyCtrl : MonoBehaviour
         TrackTarget();
 
     }
+
+    private void CheckHp()
+    {
+        if (Hp <= 0)
+        {
+            isDead = true;
+        }
+    }
+
     private void Update()
     {
-        MoveAction();
+        CheckHp();
+        if (isDead == false)
+        {
+            MoveAction();
+        }
+        else
+        {
+            navMeshAgent.isStopped = true;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
