@@ -20,19 +20,21 @@ public class PlayerCtrl : MonoBehaviour
     [HideInInspector] public float MaxThirsty = 100f;
     [HideInInspector] public float MaxFatique = 100f;
     [HideInInspector] public float MaxHp = 100f;
+    [HideInInspector] public float MaxStamina = 100f;
 
     [Header("Stat")]
     public float Hungry = 100f;
     public float Thirsty = 100f;
     public float Fatique = 100f;
     public float Hp = 100f;
+    public float Stamina = 100f;
 
     [Header("Tick")]
-    [SerializeField] private float R_HungryPerTick = 0.03f;
-    [SerializeField] private float R_ThirstyPerTick = 0.05f;
+    [SerializeField] private float R_HungryPerTick = 0.01f;
+    [SerializeField] private float R_ThirstyPerTick = 0.03f;
 
     [Space]
-    [SerializeField] private float R_Stats_Tick = 0.05f;
+    [SerializeField] private float R_Stats_Tick = 0.15f;
     private float R_Stats_TickCurrTime;
 
 
@@ -80,11 +82,7 @@ public class PlayerCtrl : MonoBehaviour
 
     #region 플레이어 공격 함수 관련 변수들
 
-    /// <summary>
-    /// 공격 딜레이
-    /// </summary>
     [Header("Attack Stat")]
-    private float AttackActionTime = 0.5f;
     /// <summary>
     /// 공격 딜레이를 확인 하기 위한 float
     /// </summary>
@@ -251,17 +249,20 @@ public class PlayerCtrl : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if ((Time.time - AttackActionCurrTime) >= AttackActionTime)
+            if (Hand != null)
             {
-                if (Hand != null)
+                if ((Time.time - AttackActionCurrTime) >= Hand.AttackDelay)
                 {
-                    Attack();
-                    AttackActionCurrTime = Time.time;
+                    if (Hand != null)
+                    {
+                        Attack();
+                        AttackActionCurrTime = Time.time;
+                    }
                 }
-            }
-            else
-            {
+                else
+                {
 
+                }
             }
         }
     }

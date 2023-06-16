@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 4804499312698566608}
   - component: {fileID: 715015769684379806}
   - component: {fileID: 5387983512372439002}
+  - component: {fileID: -3712392274834926898}
   m_Layer: 0
   m_Name: Steak
   m_TagString: Item
@@ -328,3 +329,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: b29167a5278c10448a7a0397cc55164e, type: 2}
+--- !u!114 &-3712392274834926898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138106446232234410}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.21994519, g: 1, b: 0, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

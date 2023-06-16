@@ -30,6 +30,7 @@ public class ItemObject : ScriptableObject
     public float Damage;
     public float Range;
     public float Durability;
+    public float AttackDelay;
 
 
 }

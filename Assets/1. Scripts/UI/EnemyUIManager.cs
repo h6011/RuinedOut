@@ -30,12 +30,15 @@ public class EnemyUIManager : MonoBehaviour
             EnemyCtrl enemyCtrl_ = EnemyObjList[i].GetComponent<EnemyCtrl>();
             Transform frontBar_ = EnemyUIList[i].transform.Find("FrontBar");
             frontBar_.localScale = new Vector2( Mathf.Clamp01(enemyCtrl_.Hp / enemyCtrl_.MaxHp) , 1);
-            EnemyUIList[i].transform.position = m_cam.WorldToScreenPoint(EnemyObjList[i].transform.position + new Vector3(0, 1.5f, 0));
+            //EnemyUIList[i].transform.position = m_cam.WorldToScreenPoint(EnemyObjList[i].transform.position + new Vector3(0, 1.5f, 0));
+            //EnemyUIList[i].transform.position = EnemyObjList[i].transform.position + new Vector3(0, 1.5f, 0);
         }
     }
 
     public void OnEnemySpawned(GameObject Enemy_)
     {
+
+
         GameObject EnemyUI = Instantiate(Resources.Load<GameObject>("Prefab/UI/EnemyUI"), transform);
         EnemyUI.name = "EnemyUI";
         EnemyUIList.Add(EnemyUI);
