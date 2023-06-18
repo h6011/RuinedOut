@@ -51,6 +51,7 @@ public class CanvasManager : MonoBehaviour
         GetFrontBarFromStatUI("Hungry").GetComponent<Image>().fillAmount = Mathf.Clamp01(PlayerCtrl.Instance.Hungry / PlayerCtrl.Instance.MaxHungry);
         GetFrontBarFromStatUI("Thirsty").GetComponent<Image>().fillAmount = Mathf.Clamp01(PlayerCtrl.Instance.Thirsty / PlayerCtrl.Instance.MaxThirsty);
         GetFrontBarFromStatUI("Fatique").GetComponent<Image>().fillAmount = Mathf.Clamp01(PlayerCtrl.Instance.Fatique / PlayerCtrl.Instance.MaxFatique);
+        GetFrontBarFromStatUI("Stamina").GetComponent<Image>().fillAmount = Mathf.Clamp01(PlayerCtrl.Instance.Stamina / PlayerCtrl.Instance.MaxStamina);
 
 
 

@@ -6,33 +6,96 @@ public class Movement : MonoBehaviour
 {
     public CharacterController controller;
 
-    public float speed = 12f;
-    public float gravity = -9.81f * 2;
-    public float jumpHeight = 3f;
+    #region Stat
 
-    public Transform groundcheck;
+    [Header("Stat")]
+    public float WalkSpeed = 5f;
+    public float RunSpeed = 7f;
+    public float JumpHeight = 1.5f;
+
+    #endregion
+
+
+    [Header("Tick & Stamina")]
+    [SerializeField] private float ReduceStaminaPerTick = 0.1f;
+    [SerializeField] private float IncreaseStaminaPerTick = 0.04f;
+    [SerializeField] private float CooltimeForUpStamina = 2f;
+
+    private float TimeForCheckCooltime;
+
+
+    [SerializeField] private float StatTick = 0.05f;
+    private float StatTickCurrTime = 0.05f;
+
+    #region Gravity
+
+    [Header("Gravity")]
+    public float Gravity = -9.81f * 2;
+
+    #endregion
+
+    #region Ground Stat
+
+    [Header("Ground Stat")]
+    public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-        
-    Vector3 velocity;
-    bool isGrounded;
+
+    private Vector3 velocity;
+    private bool isGrounded;
+
+    private bool isWalking = false;
+    private bool isRunning = false;
+
+    public bool IsWalking() { return isWalking; }
+    public bool IsRunning() { return isRunning; }
+
+    #endregion
 
 
-    void Jump()
+    private void StaminaAction()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (isRunning)
         {
-            print("Jumped");
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            PlayerCtrl.Instance.Stamina -= ReduceStaminaPerTick;
+
+            PlayerCtrl.Instance.Stamina = Mathf.Clamp(PlayerCtrl.Instance.Stamina, 0f, PlayerCtrl.Instance.MaxStamina);
+        }
+        else
+        {
+            if ( (Time.time - TimeForCheckCooltime) > CooltimeForUpStamina )
+            {
+                PlayerCtrl.Instance.Stamina += IncreaseStaminaPerTick;
+
+                PlayerCtrl.Instance.Stamina = Mathf.Clamp(PlayerCtrl.Instance.Stamina, 0f, PlayerCtrl.Instance.MaxStamina);
+            }
         }
     }
 
-    void Update()
+    private void StaminaTickProcess()
+    {
+        if ((Time.time - StatTickCurrTime) >= StatTick)
+        {
+            StatTickCurrTime = Time.time;
+            StaminaAction();
+        }
+    }
+
+    private void JumpAction()
+    {
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            //Debug.Log("Jumped");
+            velocity.y = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+        }
+    }
+
+    private void MoveAction()
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        isGrounded = Physics.CheckSphere(groundcheck.position, groundDistance, groundMask);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
@@ -40,14 +103,41 @@ public class Movement : MonoBehaviour
         }
 
         Vector3 move = transform.right * x + transform.forward * z;
-        
-        controller.Move(move * speed * Time.deltaTime);
 
-        Jump();
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            TimeForCheckCooltime = Time.time;
+        }
 
-        velocity.y += gravity * Time.deltaTime;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (PlayerCtrl.Instance.Stamina > 0)
+            {
+                controller.Move(move * RunSpeed * Time.deltaTime);
+                isRunning = true;
+            }
+            else
+            {
+                isRunning = false;
+                controller.Move(move * WalkSpeed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            isRunning = false;
+            controller.Move(move * WalkSpeed * Time.deltaTime);
+        }
+
+        JumpAction();
+
+        velocity.y += Gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
-        
+    }
+
+    void Update()
+    {
+        MoveAction();
+        StaminaTickProcess();
     }
 }

@@ -29,6 +29,7 @@ public class EnemyCtrl : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = AllowedDistance;
+        Target = PlayerCtrl.Instance.transform;
     }
 
     private void MoveAction()
