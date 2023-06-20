@@ -37,13 +37,9 @@ public class EnemyUIManager : MonoBehaviour
 
     public void OnEnemySpawned(GameObject Enemy_)
     {
-
-
         GameObject EnemyUI = Instantiate(Resources.Load<GameObject>("Prefab/UI/EnemyUI"), Enemy_.transform.Find("Canvas"));
         EnemyUI.name = "EnemyUI";
         EnemyUIList.Add(EnemyUI);
         EnemyObjList.Add(Enemy_);
-
-
     }
 }
