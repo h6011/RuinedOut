@@ -3671,8 +3671,8 @@ MonoBehaviour:
   WalkSpeed: 5
   RunSpeed: 7
   JumpHeight: 1.5
-  ReduceStaminaPerTick: 0.1
-  IncreaseStaminaPerTick: 0.04
+  ReduceStaminaPerTick: 0.3
+  IncreaseStaminaPerTick: 0.12
   CooltimeForUpStamina: 2
   StatTick: 0.05
   Gravity: -19.62

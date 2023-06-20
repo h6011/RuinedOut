@@ -17,8 +17,8 @@ public class Movement : MonoBehaviour
 
 
     [Header("Tick & Stamina")]
-    [SerializeField] private float ReduceStaminaPerTick = 0.1f;
-    [SerializeField] private float IncreaseStaminaPerTick = 0.04f;
+    [SerializeField] private float ReduceStaminaPerTick = 0.2f;
+    [SerializeField] private float IncreaseStaminaPerTick = 0.08f;
     [SerializeField] private float CooltimeForUpStamina = 2f;
 
     private float TimeForCheckCooltime;
