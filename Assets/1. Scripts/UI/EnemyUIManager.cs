@@ -27,19 +27,38 @@ public class EnemyUIManager : MonoBehaviour
     {
         for (int i = 0; i < EnemyUIList.Count; i++)
         {
-            GameObject EnemyUI_ = EnemyUIList[i];
-            EnemyCtrl enemyCtrl_ = EnemyObjList[i].GetComponent<EnemyCtrl>();
-            Transform frontBar_ = EnemyUI_.transform.Find("FrontBar");
-            frontBar_.localScale = new Vector2( Mathf.Clamp01(enemyCtrl_.Hp / enemyCtrl_.MaxHp) , 1);
-            EnemyUI_.transform.LookAt(m_cam.transform.position);
+            if (EnemyUIList[i] & EnemyObjList[i])
+            {
+                GameObject EnemyUI_ = EnemyUIList[i];
+                EnemyCtrl enemyCtrl_ = EnemyObjList[i].GetComponent<EnemyCtrl>();
+                Transform frontBar_ = EnemyUI_.transform.Find("FrontBar");
+                frontBar_.localScale = new Vector2(Mathf.Clamp01(enemyCtrl_.Hp / enemyCtrl_.MaxHp), 1);
+                EnemyUI_.transform.LookAt(m_cam.transform.position);
+            }
         }
     }
 
     public void OnEnemySpawned(GameObject Enemy_)
     {
-        GameObject EnemyUI = Instantiate(Resources.Load<GameObject>("Prefab/UI/EnemyUI"), Enemy_.transform.Find("Canvas"));
+        Transform FindCanvas = Enemy_.transform.Find("Canvas");
+        // Instantiate(Resources.Load<GameObject>("Prefab/UI/EnemyUI"), FindCanvas);
+        GameObject EnemyUI = PoolingMng.Instance.CreateObj(PoolingObj.EnemyUI, FindCanvas);
         EnemyUI.name = "EnemyUI";
         EnemyUIList.Add(EnemyUI);
         EnemyObjList.Add(Enemy_);
+    }
+
+    public void OnEnemyDead(GameObject Enemy_)
+    {
+        for (int i = 0; i < EnemyObjList.Count; i++)
+        {
+            if (EnemyObjList[i] == Enemy_)
+            {
+                Debug.Log(EnemyUIList[i]);
+                EnemyUIList.Remove(EnemyUIList[i]);
+                PoolingMng.Instance.RemoveObj(EnemyUIList[i]);
+            }
+        }
+        EnemyObjList.Remove(Enemy_);
     }
 }

@@ -38,11 +38,17 @@ public class EnemyCtrl : MonoBehaviour
 
     }
 
+    private void Dead()
+    {
+        EnemyUIManager.instance.OnEnemyDead(gameObject);
+    }
+
     private void CheckHp()
     {
         if (Hp <= 0)
         {
             isDead = true;
+            Dead();
         }
     }
 
