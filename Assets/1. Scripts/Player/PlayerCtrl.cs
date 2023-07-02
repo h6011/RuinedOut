@@ -227,7 +227,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            GameObject InventoryUI = CanvasManager.instance.GetUIFromName("Inventory");
+            GameObject InventoryUI = CanvasManager.instance.InventoryUI;//CanvasManager.instance.GetUIFromName("Inventory");
             if (InventoryUI.activeSelf)
             {
                 InventoryUI.SetActive(false);

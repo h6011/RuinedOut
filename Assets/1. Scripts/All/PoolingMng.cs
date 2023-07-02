@@ -54,6 +54,7 @@ public class PoolingMng : MonoBehaviour
 
         if (isThere)
         {
+            Debug.Log(isThere);
             isThere.gameObject.SetActive(true);
             isThere.parent = Parent;
         }

@@ -102,8 +102,9 @@ public class CanvasManager : MonoBehaviour
 
     public void Add_NewInventorySlotUI(ItemObject itemObject_)
     {
-        GameObject Parent1 = GetUIFromName("Inventory");
-        GameObject New1 = Instantiate(Resources.Load<GameObject>("Prefab/UI/ItemFrame"), Parent1.transform);
+        GameObject Parent1 = GetUIFromName("Inventory").transform.Find("Right").gameObject;
+        //GameObject New1 = Instantiate(Resources.Load<GameObject>("Prefab/UI/ItemFrame"), Parent1.transform);
+        GameObject New1 = PoolingMng.Instance.CreateObj(PoolingObj.ItemFrame, Parent1.transform);
         New1.name = itemObject_.name;
 
         ItemFrameManager New2 = New1.GetComponent<ItemFrameManager>();
@@ -114,17 +115,19 @@ public class CanvasManager : MonoBehaviour
 
     public void Remove_InventorySlotUI(ItemObject itemObject_)
     {
-        GameObject Parent1 = GetUIFromName("Inventory");
+        GameObject Parent1 = GetUIFromName("Inventory").transform.Find("Right").gameObject;
         Transform Find1 = Parent1.transform.Find(itemObject_.name);
         if (Find1)
         {
-            Destroy(Find1.gameObject);
+            PoolingMng.Instance.RemoveObj(Find1.gameObject);
+            //Debug.Log(Find1.gameObject);
+            //Destroy(Find1.gameObject);
         }
     }
 
     public void SetInventorySlotAmountUI(ItemObject item, int amount)
     {
-        GameObject Parent1 = GetUIFromName("Inventory");
+        GameObject Parent1 = GetUIFromName("Inventory").transform.Find("Right").gameObject;
         Transform FindSlot = Parent1.transform.Find(item.name);
         ItemFrameManager New2 = FindSlot.GetComponent<ItemFrameManager>();
         New2.ChangeAmountText(amount.ToString());
