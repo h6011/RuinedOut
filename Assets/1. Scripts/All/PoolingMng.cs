@@ -45,6 +45,7 @@ public class PoolingMng : MonoBehaviour
         Transform isThere = null;
         for (int i = 0; i < transform.childCount; i++)
         {
+            Debug.Log(transform.GetChild(i));
             if (transform.GetChild(i).name == poolingObj_.ToString())
             {
                 isThere = transform.GetChild(i);
@@ -56,7 +57,7 @@ public class PoolingMng : MonoBehaviour
         {
             Debug.Log(isThere);
             isThere.gameObject.SetActive(true);
-            isThere.parent = Parent;
+            isThere.SetParent(Parent);
         }
         else
         {
@@ -66,11 +67,13 @@ public class PoolingMng : MonoBehaviour
         return isThere.gameObject;
     }
 
-    public void RemoveObj(GameObject gameObject_)
+    public void RemoveObj(GameObject gameObject_, PoolingObj poolingObj)
     {
         gameObject_.SetActive(false);
-        gameObject_.transform.parent = transform;
+        gameObject_.name = poolingObj.ToString();
+        gameObject_.transform.SetParent(transform);
     }
+
 
 
 }

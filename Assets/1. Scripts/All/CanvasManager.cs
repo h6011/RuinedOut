@@ -119,7 +119,7 @@ public class CanvasManager : MonoBehaviour
         Transform Find1 = Parent1.transform.Find(itemObject_.name);
         if (Find1)
         {
-            PoolingMng.Instance.RemoveObj(Find1.gameObject);
+            PoolingMng.Instance.RemoveObj(Find1.gameObject, PoolingObj.ItemFrame);
             //Debug.Log(Find1.gameObject);
             //Destroy(Find1.gameObject);
         }

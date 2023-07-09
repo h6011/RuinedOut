@@ -55,10 +55,10 @@ public class EnemyUIManager : MonoBehaviour
             if (EnemyObjList[i] == Enemy_)
             {
                 Debug.Log(EnemyUIList[i]);
-                EnemyUIList.Remove(EnemyUIList[i]);
-                PoolingMng.Instance.RemoveObj(EnemyUIList[i]);
+                PoolingMng.Instance.RemoveObj(EnemyUIList[i], PoolingObj.EnemyUI);
+                EnemyObjList.RemoveAt(i);
+                EnemyUIList.RemoveAt(i);
             }
         }
-        EnemyObjList.Remove(Enemy_);
     }
 }

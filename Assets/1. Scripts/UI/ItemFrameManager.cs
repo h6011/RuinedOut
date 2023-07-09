@@ -11,7 +11,7 @@ public class ItemFrameManager : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] TMP_Text AmountText;
     public ItemObject targetItemObject;
 
-    bool IsEnter = false;
+    private bool IsEnter = false;
 
     public void ChangeNameText(string text)
     {

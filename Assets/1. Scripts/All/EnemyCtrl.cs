@@ -40,6 +40,7 @@ public class EnemyCtrl : MonoBehaviour
 
     private void Dead()
     {
+        Debug.Log("Dead");
         EnemyUIManager.instance.OnEnemyDead(gameObject);
     }
 
@@ -47,8 +48,11 @@ public class EnemyCtrl : MonoBehaviour
     {
         if (Hp <= 0)
         {
-            isDead = true;
-            Dead();
+            if (isDead == false)
+            {
+                isDead = true;
+                Dead();
+            }
         }
     }
 

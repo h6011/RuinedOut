@@ -12,12 +12,25 @@ public class EnemyManager : MonoBehaviour
         instance = this;
     }
 
+    IEnumerator FirstSpawn()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            GameObject Enemy_ = SpawnEnemyReturn();
+            EnemyUIManager.instance.OnEnemySpawned(Enemy_);
+            yield return new WaitForSeconds(10);
+        }
+    }
+
     private void Start()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
             EnemyUIManager.instance.OnEnemySpawned(transform.GetChild(i).gameObject);
         }
+
+        StartCoroutine(FirstSpawn());
+
     }
 
     public void SpawnEnemy()
@@ -25,6 +38,13 @@ public class EnemyManager : MonoBehaviour
         GameObject NewEnemy = Instantiate(Resources.Load<GameObject>("Prefab/Enemy/Enemy"), transform);
         NewEnemy.name = "New Enemy";
         EnemyUIManager.instance.OnEnemySpawned(NewEnemy);
+    }
+    public GameObject SpawnEnemyReturn()
+    {
+        GameObject NewEnemy = Instantiate(Resources.Load<GameObject>("Prefab/Enemy/Enemy"), transform);
+        NewEnemy.name = "New Enemy";
+        EnemyUIManager.instance.OnEnemySpawned(NewEnemy);
+        return NewEnemy;
     }
 
 }
