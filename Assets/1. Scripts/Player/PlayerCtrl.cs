@@ -278,7 +278,7 @@ public class PlayerCtrl : MonoBehaviour
                 float Dis_ = hit.distance;
                 if (Dis_ <= Hand.Range)
                 {
-                    print("Enemy Attacked");
+                    //print("Enemy Attacked");
                     EnemyCtrl enemyCtrl = hit.transform.GetComponent<EnemyCtrl>();
                     enemyCtrl.Hp -= Hand.Damage;
                 }

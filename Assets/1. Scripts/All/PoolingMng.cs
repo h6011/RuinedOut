@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /*
- * Enemy UI 랑 Item Frame 풀링 처리 해서 할려 했으나 Transform 이니 RectTransform 이니 뭔 문제가 있음;;
+ * 
  * 
  * 
  * 
@@ -45,7 +45,7 @@ public class PoolingMng : MonoBehaviour
         Transform isThere = null;
         for (int i = 0; i < transform.childCount; i++)
         {
-            Debug.Log(transform.GetChild(i));
+            //Debug.Log(transform.GetChild(i));
             if (transform.GetChild(i).name == poolingObj_.ToString())
             {
                 isThere = transform.GetChild(i);
@@ -55,7 +55,7 @@ public class PoolingMng : MonoBehaviour
 
         if (isThere)
         {
-            Debug.Log(isThere);
+            //Debug.Log(isThere);
             isThere.gameObject.SetActive(true);
             isThere.SetParent(Parent);
         }

@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
 
     public static EnemyManager instance;
+    [SerializeField] private float firstEnemySpawnTime = 45.0f;
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class EnemyManager : MonoBehaviour
         {
             GameObject Enemy_ = SpawnEnemyReturn();
             EnemyUIManager.instance.OnEnemySpawned(Enemy_);
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(firstEnemySpawnTime);
         }
     }
 
