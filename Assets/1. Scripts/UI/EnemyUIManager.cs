@@ -19,10 +19,8 @@ public class EnemyUIManager : MonoBehaviour
     void Start()
     {
         m_cam = Camera.main;
-        //Resources.Load<GameObject>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         for (int i = 0; i < EnemyUIList.Count; i++)
@@ -40,10 +38,9 @@ public class EnemyUIManager : MonoBehaviour
 
     public void OnEnemySpawned(GameObject Enemy_)
     {
-        Debug.Log("OnEnemySpawned");
         Transform FindCanvas = Enemy_.transform.Find("Canvas");
-        // Instantiate(Resources.Load<GameObject>("Prefab/UI/EnemyUI"), FindCanvas);
         GameObject EnemyUI = PoolingMng.Instance.CreateObj(PoolingObj.EnemyUI, FindCanvas);
+        EnemyUI.transform.localPosition = new Vector3(0, 120.0f, 0f);
         EnemyUI.name = "EnemyUI";
         EnemyUIList.Add(EnemyUI);
         EnemyObjList.Add(Enemy_);
@@ -55,16 +52,5 @@ public class EnemyUIManager : MonoBehaviour
         PoolingMng.Instance.RemoveObj(EnemyUIList[idx], PoolingObj.EnemyUI);
         EnemyObjList.RemoveAt(idx);
         EnemyUIList.RemoveAt(idx);
-
-        //for (int i = 0; i < EnemyObjList.Count; i++)
-        //{
-        //    if (EnemyObjList[i] == Enemy_)
-        //    {
-        //        Debug.Log(EnemyUIList[i]);
-        //        PoolingMng.Instance.RemoveObj(EnemyUIList[i], PoolingObj.EnemyUI);
-        //        EnemyObjList.RemoveAt(i);
-        //        EnemyUIList.RemoveAt(i);
-        //    }
-        //}
     }
 }

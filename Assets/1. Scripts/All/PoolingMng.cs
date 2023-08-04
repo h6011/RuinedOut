@@ -15,6 +15,9 @@ public enum PoolingObj
     EnemyUI,
     ItemFrame,
 
+    EnemyDeadBody,
+    Block1,
+
 }
 
 public class PoolingMng : MonoBehaviour
@@ -33,7 +36,21 @@ public class PoolingMng : MonoBehaviour
         {
             if (objs_[i].name == poolingObj_.ToString())
             {
-                GameObject obj_ =  Instantiate(objs_[i], Parent);
+                GameObject obj_ = Instantiate(objs_[i], Parent);
+                return obj_;
+            }
+        }
+        return null;
+    }
+
+    private GameObject createObj(string poolingObjname, Transform Parent)
+    {
+        GameObject[] objs_ = Resources.LoadAll<GameObject>("Prefab");
+        for (int i = 0; i < objs_.Length; i++)
+        {
+            if (objs_[i].name == poolingObjname)
+            {
+                GameObject obj_ = Instantiate(objs_[i], Parent);
                 return obj_;
             }
         }
@@ -67,10 +84,44 @@ public class PoolingMng : MonoBehaviour
         return isThere.gameObject;
     }
 
+    public GameObject CreateObj(string poolingObjname, Transform Parent)
+    {
+        Transform isThere = null;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            //Debug.Log(transform.GetChild(i));
+            if (transform.GetChild(i).name == poolingObjname)
+            {
+                isThere = transform.GetChild(i);
+                break;
+            }
+        }
+
+        if (isThere)
+        {
+            //Debug.Log(isThere);
+            isThere.gameObject.SetActive(true);
+            isThere.SetParent(Parent);
+        }
+        else
+        {
+            isThere = createObj(poolingObjname, Parent).transform;
+        }
+
+        return isThere.gameObject;
+    }
+
     public void RemoveObj(GameObject gameObject_, PoolingObj poolingObj)
     {
         gameObject_.SetActive(false);
         gameObject_.name = poolingObj.ToString();
+        gameObject_.transform.SetParent(transform);
+    }
+
+    public void RemoveObj(GameObject gameObject_, string poolingObjname)
+    {
+        gameObject_.SetActive(false);
+        gameObject_.name = poolingObjname;
         gameObject_.transform.SetParent(transform);
     }
 

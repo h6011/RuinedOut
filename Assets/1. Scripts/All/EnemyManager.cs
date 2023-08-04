@@ -18,7 +18,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             GameObject Enemy_ = SpawnEnemyReturn();
-            EnemyUIManager.instance.OnEnemySpawned(Enemy_);
+            //EnemyUIManager.instance.OnEnemySpawned(Enemy_);
             yield return new WaitForSeconds(firstEnemySpawnTime);
         }
     }
