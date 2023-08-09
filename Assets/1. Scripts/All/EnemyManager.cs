@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
 
     public static EnemyManager instance;
     [SerializeField] private float firstEnemySpawnTime = 45.0f;
+    [SerializeField, Range(1, 200)] private float firstEnemySpawnAmount = 99.0f;
 
     private void Awake()
     {
@@ -15,7 +16,7 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator FirstSpawn()
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < firstEnemySpawnAmount; i++)
         {
             GameObject Enemy_ = SpawnEnemyReturn();
             //EnemyUIManager.instance.OnEnemySpawned(Enemy_);

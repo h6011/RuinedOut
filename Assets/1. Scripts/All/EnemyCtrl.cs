@@ -40,9 +40,10 @@ public class EnemyCtrl : MonoBehaviour
 
     private void Dead()
     {
-        EffectMng.Instance.MakeEffect1(EffectType.EnemyDeadBody, transform.position, 1, 6);
-        EffectMng.Instance.MakeEffect1(EffectType.Block1, transform.position, 8, 1.5f, 15f);
+        //EffectMng.Instance.MakeEffect1(EffectType.EnemyDeadBody, transform.position, 1, 6);
+        EffectMng.Instance.MakeEffect1(EffectType.Block1, transform.position, 8, 2f, 15f);
         EnemyUIManager.instance.OnEnemyDead(gameObject);
+        Destroy(gameObject);
     }
 
     private void CheckHp()
@@ -66,7 +67,10 @@ public class EnemyCtrl : MonoBehaviour
         }
         else
         {
-            navMeshAgent.isStopped = true;
+            if (navMeshAgent != null)
+            {
+                navMeshAgent.isStopped = true;
+            }
         }
     }
 
@@ -86,6 +90,7 @@ public class EnemyCtrl : MonoBehaviour
     private void AttackPlayer(Transform playerTransform_)
     {
         Debug.Log(playerTransform_);
+        PlayerCtrl.Instance.Hp -= 5f;
     }
 
 }
