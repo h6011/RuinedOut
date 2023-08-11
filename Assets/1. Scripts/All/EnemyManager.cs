@@ -11,8 +11,10 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> enemyList = new List<GameObject>();
 
-    private float enemyAttackTick = 1.0f;
     [SerializeField] private Dictionary<GameObject, float> enemyAttackTickCurrDic = new Dictionary<GameObject, float>();
+    private float enemyAttackTick = 2.0f;
+    private float enemyAttackDamage = 4.0f;
+    private float enemyAttackDistance = 2f;
 
     private void Awake()
     {
@@ -39,22 +41,26 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < enemyList.Count; i++)
         {
             GameObject enemyObj = enemyList[i];
-            bool IsContainKey = enemyAttackTickCurrDic.ContainsKey(enemyObj);
-            if (IsContainKey)
-            {
-                for (int i2 = 0; i2 < length; i2++)
-                {
+            float outvalue;
+            float Distance_ = (enemyObj.transform.position - PlayerCtrl.Instance.PlayerObject.transform.position).magnitude;
 
-                }
-                if ((Time.time - IsContainKey) >= enemyAttackTick)
-                {
-                    AttackPlayer(collision.transform);
-                    AttackTickCurr = Time.time;
-                }
-            }
-            else
+            if (Distance_ <= enemyAttackDistance)
             {
-
+                bool TryGetValue_ = enemyAttackTickCurrDic.TryGetValue(enemyObj, out outvalue);
+                if (TryGetValue_)
+                {
+                    if ((Time.time - outvalue) >= enemyAttackTick)
+                    {
+                        AttackPlayer(enemyAttackDamage);
+                        enemyAttackTickCurrDic.Remove(enemyObj);
+                        enemyAttackTickCurrDic.Add(enemyObj, Time.time);
+                    }
+                }
+                else
+                {
+                    AttackPlayer(enemyAttackDamage);
+                    enemyAttackTickCurrDic.Add(enemyObj, Time.time);
+                }
             }
         }
     }
@@ -70,7 +76,7 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(FirstSpawn());
 
     }
-    private void FixedUpdate()
+    private void Update()
     {
         EnemyAttackAction();
     }

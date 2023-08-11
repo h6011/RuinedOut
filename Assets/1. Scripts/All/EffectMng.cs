@@ -25,7 +25,7 @@ public class EffectMng : MonoBehaviour
         {
             timer += Time.deltaTime / Duration_;
 
-            float v1 = (1f - timer) * 0.5f;//Mathf.Lerp(0.0f, 1.0f, timer);
+            float v1 = Mathf.Clamp((1f - timer) * 0.5f, 0.01f, 1000);//Mathf.Lerp(0.0f, 1.0f, timer);
             obj.transform.localScale = new Vector3(v1, v1, v1);
 
             yield return null;
@@ -38,13 +38,19 @@ public class EffectMng : MonoBehaviour
         PoolingMng.Instance.RemoveObj(obj, poolingObjname);
     }
 
-    public void MakeEffect1(EffectType effectType, Vector3 position, int amount, float liveTime, float power = 5f)
+    public void MakeEffect1(EffectType effectType, Vector3 position, int amount, float liveTime, float power)
     {
         for (int i = 0; i < amount; i++)
         {
             GameObject newobj = PoolingMng.Instance.CreateObj(effectType.ToString(), transform);
             newobj.layer = LayerMask.NameToLayer("Effect");
             newobj.transform.position = position;
+
+            MeshRenderer ren = newobj.GetComponent<MeshRenderer>();
+            Material mat = ren.material;
+            ren.material = Instantiate(mat);
+            mat = ren.material;
+
             Rigidbody rb = newobj.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -52,7 +58,7 @@ public class EffectMng : MonoBehaviour
             }
             if (effectType == EffectType.Block1)
             {
-                StartCoroutine(DisappearEffect1(newobj, 2f, effectType.ToString()));
+                StartCoroutine(DisappearEffect1(newobj, liveTime, effectType.ToString()));
                 StartCoroutine(LiveTimeAction(newobj, effectType.ToString(), liveTime));
             }
             else

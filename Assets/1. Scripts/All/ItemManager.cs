@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance;
+    public GameObject ItemManagerObj;
 
     private void Awake()
     {

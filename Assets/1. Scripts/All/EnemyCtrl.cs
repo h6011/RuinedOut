@@ -72,7 +72,8 @@ public class EnemyCtrl : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*
+     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision);
         if (collision.transform.CompareTag("Player"))
@@ -85,6 +86,7 @@ public class EnemyCtrl : MonoBehaviour
             }
         }
     }
+     */
 
     private void AttackPlayer(Transform playerTransform_)
     {

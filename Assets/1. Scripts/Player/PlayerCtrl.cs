@@ -194,6 +194,8 @@ public class PlayerCtrl : MonoBehaviour
     /// </summary>
     private void PickUpAction()
     {
+        OutlineMng.Instance.DisableAllOutlines();
+
         Ray ray = CameraSettings.instance.MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, PickupLayerMask))
@@ -207,6 +209,15 @@ public class PlayerCtrl : MonoBehaviour
                     if (Input.GetMouseButtonDown(0))
                     {
                         ItemManager.Instance.GetItemFromObject(PlayerCtrl.Instance, hit.transform.gameObject);
+                    }
+
+                    Outline findOutline = hit.transform.GetComponent<Outline>();
+                    if (findOutline)
+                    {
+                        //findOutline.enabled = true;
+                        Color color = findOutline.OutlineColor;
+                        color.a = 1.0f;
+                        findOutline.OutlineColor = color;
                     }
                 }
                 else
@@ -278,9 +289,9 @@ public class PlayerCtrl : MonoBehaviour
                 float Dis_ = hit.distance;
                 if (Dis_ <= Hand.Range)
                 {
-                    //print("Enemy Attacked");
                     EnemyCtrl enemyCtrl = hit.transform.GetComponent<EnemyCtrl>();
                     enemyCtrl.Hp -= Hand.Damage;
+                    EffectMng.Instance.MakeEffect1(EffectType.Block1, hit.point, 4, 0.5f, 1);
                 }
             }
         }
