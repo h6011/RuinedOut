@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -43,7 +44,7 @@ public class EnemyCtrl : MonoBehaviour
         //EffectMng.Instance.MakeEffect1(EffectType.EnemyDeadBody, transform.position, 1, 6);
         EffectMng.Instance.MakeEffect1(EffectType.Block1, transform.position, 8, 2f, 15f);
         EnemyUIManager.instance.OnEnemyDead(gameObject);
-        Destroy(gameObject);
+        EnemyManager.instance.RemoveEnemy(gameObject);
     }
 
     private void CheckHp()
@@ -67,18 +68,16 @@ public class EnemyCtrl : MonoBehaviour
         }
         else
         {
-            if (navMeshAgent != null)
-            {
-                navMeshAgent.isStopped = true;
-            }
+            //navMeshAgent.isStopped = true;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(1);
+        Debug.Log(collision);
         if (collision.transform.CompareTag("Player"))
         {
+            Debug.Log(2);
             if ((Time.time - AttackTickCurr) >= AttackTick)
             {
                 AttackPlayer(collision.transform);

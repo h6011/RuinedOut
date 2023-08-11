@@ -25,8 +25,7 @@ public class EffectMng : MonoBehaviour
         {
             timer += Time.deltaTime / Duration_;
 
-            float v1 = 1f - timer;//Mathf.Lerp(0.0f, 1.0f, timer);
-            Debug.Log(v1);
+            float v1 = (1f - timer) * 0.5f;//Mathf.Lerp(0.0f, 1.0f, timer);
             obj.transform.localScale = new Vector3(v1, v1, v1);
 
             yield return null;
@@ -44,6 +43,7 @@ public class EffectMng : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             GameObject newobj = PoolingMng.Instance.CreateObj(effectType.ToString(), transform);
+            newobj.layer = LayerMask.NameToLayer("Effect");
             newobj.transform.position = position;
             Rigidbody rb = newobj.GetComponent<Rigidbody>();
             if (rb != null)

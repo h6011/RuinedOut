@@ -3842,7 +3842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d572f08ce93c5e4f99080f74d2d8bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstEnemySpawnTime: 1
+  firstEnemySpawnTime: 20
   firstEnemySpawnAmount: 30
 --- !u!1 &1639229284
 GameObject:
