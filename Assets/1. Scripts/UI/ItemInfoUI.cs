@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class ItemInfoUI : MonoBehaviour
 {
     public ItemObject itemObject;
-    [SerializeField] TMP_Text itemNameText;
-    [SerializeField] TMP_Text btnText;
+    [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text btnText;
+    [SerializeField] private Image img;
 
     public void OnBtn1LeftClicked()
     {
@@ -31,6 +32,11 @@ public class ItemInfoUI : MonoBehaviour
     public void ChangeBtnText(string _text)
     {
         btnText.text = _text;
+    }
+
+    public void ChangeImg(Sprite sprite)
+    {
+        img.sprite = sprite;
     }
 
 }

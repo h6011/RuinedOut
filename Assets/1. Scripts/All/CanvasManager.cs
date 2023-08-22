@@ -52,9 +52,6 @@ public class CanvasManager : MonoBehaviour
         GetFrontBarFromStatUI("Thirsty").GetComponent<Image>().fillAmount = Mathf.Clamp01(PlayerCtrl.Instance.Thirsty / PlayerCtrl.Instance.MaxThirsty);
         GetFrontBarFromStatUI("Fatique").GetComponent<Image>().fillAmount = Mathf.Clamp01(PlayerCtrl.Instance.Fatique / PlayerCtrl.Instance.MaxFatique);
         GetFrontBarFromStatUI("Stamina").GetComponent<Image>().fillAmount = Mathf.Clamp01(PlayerCtrl.Instance.Stamina / PlayerCtrl.Instance.MaxStamina);
-
-
-
     }
 
     private void initUI()
@@ -103,14 +100,24 @@ public class CanvasManager : MonoBehaviour
     public void Add_NewInventorySlotUI(ItemObject itemObject_)
     {
         GameObject Parent1 = GetUIFromName("Inventory").transform.Find("Right").gameObject;
-        //GameObject New1 = Instantiate(Resources.Load<GameObject>("Prefab/UI/ItemFrame"), Parent1.transform);
         GameObject New1 = PoolingMng.Instance.CreateObj(PoolingObj.ItemFrame, Parent1.transform);
         New1.name = itemObject_.name;
+
+        Sprite imgsprite = Resources.Load<Sprite>("Sprites/" + itemObject_.name);
 
         ItemFrameManager New2 = New1.GetComponent<ItemFrameManager>();
         New2.ChangeNameText(string.Format("{0}", itemObject_.name));
         New2.ChangeAmountText("1");
+        New2.ChangeImg(imgsprite);
         New2.targetItemObject = itemObject_;
+
+        if (imgsprite == null)
+        {
+            Color c1 = new Color();
+            c1.a = 0;
+            New2.ChangeImgColor(c1);
+        }
+
     }
 
     public void Remove_InventorySlotUI(ItemObject itemObject_)
@@ -120,8 +127,6 @@ public class CanvasManager : MonoBehaviour
         if (Find1)
         {
             PoolingMng.Instance.RemoveObj(Find1.gameObject, PoolingObj.ItemFrame);
-            //Debug.Log(Find1.gameObject);
-            //Destroy(Find1.gameObject);
         }
     }
 
