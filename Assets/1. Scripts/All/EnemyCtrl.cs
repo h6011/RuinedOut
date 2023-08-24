@@ -39,6 +39,27 @@ public class EnemyCtrl : MonoBehaviour
 
     }
 
+    IEnumerator MakeGetAttackedEffect()
+    {
+        MeshRenderer meshRenderer = transform.GetComponent<MeshRenderer>();
+        Material saveMaterial = meshRenderer.material;
+
+        meshRenderer.material = Resources.Load<Material>("Materials/Red");
+        yield return new WaitForSeconds(0.2f);
+        meshRenderer.material = saveMaterial;
+        yield return null;
+    }
+
+    public void GetAttackedEffect()
+    {
+        if (Hp > 0)
+        {
+            StartCoroutine("MakeGetAttackedEffect");
+        }
+    }
+
+    
+
     private void Dead()
     {
         //EffectMng.Instance.MakeEffect1(EffectType.EnemyDeadBody, transform.position, 1, 6);

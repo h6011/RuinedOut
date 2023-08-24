@@ -291,6 +291,7 @@ public class PlayerCtrl : MonoBehaviour
                 {
                     EnemyCtrl enemyCtrl = hit.transform.GetComponent<EnemyCtrl>();
                     enemyCtrl.Hp -= Hand.Damage;
+                    enemyCtrl.GetAttackedEffect();
                     EffectMng.Instance.MakeEffect1(EffectType.Block1, hit.point, 4, 0.5f, 1);
                 }
             }

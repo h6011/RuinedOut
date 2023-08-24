@@ -60,6 +60,7 @@ public class ItemFrameManager : MonoBehaviour, IPointerEnterHandler, IPointerExi
             if (imgsprite)
             {
                 _itemInfoUI.ChangeImg(imgsprite);
+                ItemInfoUI.transform.Find("Img").gameObject.SetActive(true);
             }
             else
             {
@@ -72,11 +73,13 @@ public class ItemFrameManager : MonoBehaviour, IPointerEnterHandler, IPointerExi
             {
                 _itemInfoUI.ChangeBtnText("Eat");
                 list1 = new string[] { "Hungry", "Thirsty" };
+                Debug.Log("Food");
             }
             else if (targetItemObject.ItemType == ItemType.Equipment)
             {
                 _itemInfoUI.ChangeBtnText("Equip");
                 list1 = new string[] { "Damage", "Range" , "AttackDelay"};
+                Debug.Log("Equipment");
             }
 
             for (int i = 0; i < StatUI_.childCount; i++)
