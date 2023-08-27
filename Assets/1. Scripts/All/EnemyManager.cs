@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < firstEnemySpawnAmount; i++)
         {
-            GameObject Enemy_ = SpawnEnemyReturn();
+            GameObject Enemy_ = SpawnEnemyReturn("Zombie1");
             //EnemyUIManager.instance.OnEnemySpawned(Enemy_);
             yield return new WaitForSeconds(firstEnemySpawnTime);
         }
@@ -81,16 +81,16 @@ public class EnemyManager : MonoBehaviour
         EnemyAttackAction();
     }
     
-    public void SpawnEnemy()
+    public void SpawnEnemy(string Name)
     {
-        GameObject NewEnemy = Instantiate(Resources.Load<GameObject>("Prefab/Enemy/Enemy"), transform);
+        GameObject NewEnemy = Instantiate(Resources.Load<GameObject>("Prefab/Enemy/" + Name), transform);
         NewEnemy.name = "New Enemy";
         enemyList.Add(NewEnemy);
         EnemyUIManager.instance.OnEnemySpawned(NewEnemy);
     }
-    public GameObject SpawnEnemyReturn()
+    public GameObject SpawnEnemyReturn(string Name)
     {
-        GameObject NewEnemy = Instantiate(Resources.Load<GameObject>("Prefab/Enemy/Enemy"), transform);
+        GameObject NewEnemy = Instantiate(Resources.Load<GameObject>("Prefab/Enemy/" + Name), transform);
         NewEnemy.name = "New Enemy";
         enemyList.Add(NewEnemy);
         EnemyUIManager.instance.OnEnemySpawned(NewEnemy);

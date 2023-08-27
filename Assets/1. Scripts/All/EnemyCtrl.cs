@@ -14,6 +14,9 @@ public class EnemyCtrl : MonoBehaviour
 
     NavMeshAgent navMeshAgent;
     CapsuleCollider capsuleCollider;
+    Animator animator;
+    Animation animation;
+    AnimationClip clip;
 
     private float AttackTick = 1.0f;
     private float AttackTickCurr;
@@ -31,6 +34,10 @@ public class EnemyCtrl : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = AllowedDistance;
         Target = PlayerCtrl.Instance.transform;
+
+        animator = GetComponent<Animator>();
+        //animator.Play()
+
     }
 
     private void MoveAction()
@@ -42,12 +49,15 @@ public class EnemyCtrl : MonoBehaviour
     IEnumerator MakeGetAttackedEffect()
     {
         MeshRenderer meshRenderer = transform.GetComponent<MeshRenderer>();
-        Material saveMaterial = meshRenderer.material;
+        if (meshRenderer)
+        {
+            Material saveMaterial = meshRenderer.material;
 
-        meshRenderer.material = Resources.Load<Material>("Materials/Red");
-        yield return new WaitForSeconds(0.2f);
-        meshRenderer.material = saveMaterial;
-        yield return null;
+            meshRenderer.material = Resources.Load<Material>("Materials/Red");
+            yield return new WaitForSeconds(0.2f);
+            meshRenderer.material = saveMaterial;
+            yield return null;
+        }
     }
 
     public void GetAttackedEffect()
