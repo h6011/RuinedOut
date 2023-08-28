@@ -282,18 +282,14 @@ public class PlayerCtrl : MonoBehaviour
     {
         Ray ray = CameraSettings.instance.MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Hand.Range))
         {
             if (hit.transform.CompareTag("Enemy"))
             {
-                float Dis_ = hit.distance;
-                if (Dis_ <= Hand.Range)
-                {
-                    EnemyCtrl enemyCtrl = hit.transform.GetComponent<EnemyCtrl>();
-                    enemyCtrl.Hp -= Hand.Damage;
-                    enemyCtrl.GetAttackedEffect();
-                    EffectMng.Instance.MakeEffect1(EffectType.Block1, hit.point, 4, 0.5f, 1);
-                }
+                EnemyCtrl enemyCtrl = hit.transform.GetComponent<EnemyCtrl>();
+                enemyCtrl.Hp -= Hand.Damage;
+                enemyCtrl.GetAttackedEffect();
+                EffectMng.Instance.MakeEffect1(EffectType.Block1, hit.point, 4, 0.5f, 1);
             }
         }
     }

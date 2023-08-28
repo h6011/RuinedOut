@@ -15,17 +15,25 @@ public class EnemyCtrl : MonoBehaviour
     NavMeshAgent navMeshAgent;
     CapsuleCollider capsuleCollider;
     Animator animator;
-    Animation animation;
-    AnimationClip clip;
 
-    private float AttackTick = 1.0f;
-    private float AttackTickCurr;
-
-    [SerializeField] private float AllowedDistance = 3.0f;
+    private float enemyCanFindDistance = 10.0f; // 좀비 시야
+    private float enemyAttackTick = 2.0f; // 몇초 간격으로 때리게 할건지
+    private float enemyAttackCurrTick = 0.0f; // 건드리지 마세요!
+    private float enemyAttackDamage = 4.0f; // 
+    private float enemyAttackDistance = 3f; // 공격 유효 사거리
+    [SerializeField] private float AllowedDistance = 2.5f;
 
     private void TrackTarget()
     {
-        navMeshAgent.SetDestination(Target.position);
+        if (Target)
+        {
+            navMeshAgent.SetDestination(Target.position);
+        }
+    }
+
+    public void SetTarget(Transform targetTransform)
+    {
+        Target = targetTransform;
     }
 
     private void Start()
@@ -33,17 +41,14 @@ public class EnemyCtrl : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = AllowedDistance;
-        Target = PlayerCtrl.Instance.transform;
 
         animator = GetComponent<Animator>();
-        //animator.Play()
 
     }
 
     private void MoveAction()
     {
         TrackTarget();
-
     }
 
     IEnumerator MakeGetAttackedEffect()
@@ -69,13 +74,18 @@ public class EnemyCtrl : MonoBehaviour
     }
 
     
-
-    private void Dead()
+    public void DeadFunctionForAniEvent()
     {
-        //EffectMng.Instance.MakeEffect1(EffectType.EnemyDeadBody, transform.position, 1, 6);
         EffectMng.Instance.MakeEffect1(EffectType.Block1, transform.position, 8, 2f, 15f);
         EnemyUIManager.instance.OnEnemyDead(gameObject);
         EnemyManager.instance.RemoveEnemy(gameObject);
+    }
+
+    private void Dead()
+    {
+        gameObject.layer = LayerMask.NameToLayer("EnemyDead");
+        gameObject.tag = "EnemyDead";
+        animator.SetInteger("Ani", 3);
     }
 
     private void CheckHp()
@@ -90,39 +100,104 @@ public class EnemyCtrl : MonoBehaviour
         }
     }
 
+    private void AttackAction()
+    {
+        if (Target)
+        {
+            float Distance_ = Vector3.Distance(transform.position, Target.position);
+            if (Distance_ <= enemyAttackDistance)
+            {
+                if ((Time.time - enemyAttackCurrTick) >= enemyAttackTick)
+                {
+                    enemyAttackCurrTick = Time.time;
+                    animator.SetTrigger("Attack");
+                }
+            }
+        }
+    }
+
+    private void CheckCanFind()
+    {
+        if (Target == null)
+        {
+            float Distance_ = Vector3.Distance(transform.position, PlayerCtrl.Instance.transform.position);
+            if (Distance_ <= enemyCanFindDistance)
+            {
+                SetTarget(PlayerCtrl.Instance.transform);
+            }
+        }
+        else
+        {
+            float Distance_ = Vector3.Distance(transform.position, Target.position);
+            if (Distance_ > enemyCanFindDistance)
+            {
+                SetTarget(null);
+            }
+        }
+    }
+
+    private void AnimationAction()
+    {
+        if (isDead)
+        {
+            animator.SetInteger("Ani", 3);
+        }
+        else
+        {
+            if (navMeshAgent.velocity.magnitude > 0)
+            {
+                if (Target)
+                {
+                    animator.SetInteger("Ani", 2);
+                }
+                else
+                {
+                    animator.SetInteger("Ani", 1);
+                }
+            }
+            else
+            {
+                animator.SetInteger("Ani", 0);
+            }
+        }
+    }
+
     private void Update()
     {
+        CheckCanFind();
         CheckHp();
+        AttackAction();
         if (isDead == false)
         {
             MoveAction();
         }
-        else
-        {
-            //navMeshAgent.isStopped = true;
-        }
+        AnimationAction();
     }
 
-    /*
-     private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision);
-        if (collision.transform.CompareTag("Player"))
-        {
-            Debug.Log(2);
-            if ((Time.time - AttackTickCurr) >= AttackTick)
-            {
-                AttackPlayer(collision.transform);
-                AttackTickCurr = Time.time;
-            }
-        }
-    }
-     */
+  
 
-    private void AttackPlayer(Transform playerTransform_)
+     //private void OnCollisionEnter(Collision collision)
+     //{
+     //   Debug.Log(collision.transform.name);
+     //   if (collision.transform.CompareTag("Player"))
+     //   {
+     //       if ((Time.time - AttackTickCurr) >= AttackTick)
+     //       {
+     //           AttackPlayer(collision.transform);
+     //           AttackTickCurr = Time.time;
+     //       }
+     //   }
+     //}
+
+
+    private void TryAttackPlayer()
     {
-        Debug.Log(playerTransform_);
-        PlayerCtrl.Instance.Hp -= 5f;
+        Debug.Log("TryAttack");
+        float Dis = Vector3.Distance(transform.position, Target.position);
+        if (Dis <= enemyAttackDistance)
+        {
+            PlayerCtrl.Instance.Hp -= enemyAttackDamage;
+        }
     }
 
 }

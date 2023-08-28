@@ -1195,10 +1195,10 @@ Animator:
   m_GameObject: {fileID: 4534956054482573663}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f88c8301226fd194cbbc64e25b20d567, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 92dd9201ce691dc419366f04521ba6f3, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1257,4 +1257,4 @@ MonoBehaviour:
   MaxHp: 20
   Hp: 20
   isDead: 0
-  AllowedDistance: 3
+  AllowedDistance: 2

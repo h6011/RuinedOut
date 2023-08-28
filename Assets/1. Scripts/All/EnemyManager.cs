@@ -11,10 +11,10 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> enemyList = new List<GameObject>();
 
-    [SerializeField] private Dictionary<GameObject, float> enemyAttackTickCurrDic = new Dictionary<GameObject, float>();
-    private float enemyAttackTick = 2.0f;
-    private float enemyAttackDamage = 4.0f;
-    private float enemyAttackDistance = 2f;
+    //[SerializeField] private Dictionary<GameObject, float> enemyAttackTickCurrDic = new Dictionary<GameObject, float>();
+    //private float enemyAttackTick = 2.0f;
+    //private float enemyAttackDamage = 4.0f;
+    //private float enemyAttackDistance = 2f;
 
     private void Awake()
     {
@@ -33,37 +33,38 @@ public class EnemyManager : MonoBehaviour
 
     private void AttackPlayer(float damage)
     {
+
         PlayerCtrl.Instance.Hp -= damage;
     }
 
-    private void EnemyAttackAction()
-    {
-        for (int i = 0; i < enemyList.Count; i++)
-        {
-            GameObject enemyObj = enemyList[i];
-            float outvalue;
-            float Distance_ = (enemyObj.transform.position - PlayerCtrl.Instance.PlayerObject.transform.position).magnitude;
+    //private void EnemyAttackAction()
+    //{
+    //    for (int i = 0; i < enemyList.Count; i++)
+    //    {
+    //        GameObject enemyObj = enemyList[i];
+    //        float outvalue;
+    //        float Distance_ = (enemyObj.transform.position - PlayerCtrl.Instance.PlayerObject.transform.position).magnitude;
 
-            if (Distance_ <= enemyAttackDistance)
-            {
-                bool TryGetValue_ = enemyAttackTickCurrDic.TryGetValue(enemyObj, out outvalue);
-                if (TryGetValue_)
-                {
-                    if ((Time.time - outvalue) >= enemyAttackTick)
-                    {
-                        AttackPlayer(enemyAttackDamage);
-                        enemyAttackTickCurrDic.Remove(enemyObj);
-                        enemyAttackTickCurrDic.Add(enemyObj, Time.time);
-                    }
-                }
-                else
-                {
-                    AttackPlayer(enemyAttackDamage);
-                    enemyAttackTickCurrDic.Add(enemyObj, Time.time);
-                }
-            }
-        }
-    }
+    //        if (Distance_ <= enemyAttackDistance)
+    //        {
+    //            bool TryGetValue_ = enemyAttackTickCurrDic.TryGetValue(enemyObj, out outvalue);
+    //            if (TryGetValue_)
+    //            {
+    //                if ((Time.time - outvalue) >= enemyAttackTick)
+    //                {
+    //                    AttackPlayer(enemyAttackDamage);
+    //                    enemyAttackTickCurrDic.Remove(enemyObj);
+    //                    enemyAttackTickCurrDic.Add(enemyObj, Time.time);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                AttackPlayer(enemyAttackDamage);
+    //                enemyAttackTickCurrDic.Add(enemyObj, Time.time);
+    //            }
+    //        }
+    //    }
+    //}
 
     private void Start()
     {
@@ -76,11 +77,11 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(FirstSpawn());
 
     }
-    private void Update()
-    {
-        EnemyAttackAction();
-    }
-    
+    //private void Update()
+    //{
+    //    EnemyAttackAction();
+    //}
+
     public void SpawnEnemy(string Name)
     {
         GameObject NewEnemy = Instantiate(Resources.Load<GameObject>("Prefab/Enemy/" + Name), transform);
