@@ -41,6 +41,7 @@ public class EnemyCtrl : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = AllowedDistance;
+        navMeshAgent.enabled = true;
 
         animator = GetComponent<Animator>();
 
@@ -85,6 +86,7 @@ public class EnemyCtrl : MonoBehaviour
     {
         gameObject.layer = LayerMask.NameToLayer("EnemyDead");
         gameObject.tag = "EnemyDead";
+        navMeshAgent.enabled = false;
         animator.SetInteger("Ani", 3);
     }
 
@@ -132,6 +134,13 @@ public class EnemyCtrl : MonoBehaviour
             if (Distance_ > enemyCanFindDistance)
             {
                 SetTarget(null);
+            }
+            else
+            {
+                Vector3 curRot = transform.rotation.eulerAngles;
+                transform.LookAt(Target.position);
+                float yAngle = transform.rotation.eulerAngles.y;
+                transform.rotation = Quaternion.Euler(curRot.x, yAngle, curRot.z); 
             }
         }
     }

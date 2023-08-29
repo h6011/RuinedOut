@@ -38,25 +38,18 @@ public class ItemObject : ScriptableObject
         {
             case "Hungry":
                 return Hungry;
-                break;
             case "Thirsty":
                 return Thirsty;
-                break;
             case "Damage":
                 return Damage;
-                break;
             case "Range":
                 return Range;
-                break;
             case "Durability":
                 return Durability;
-                break;
             case "AttackDelay":
                 return AttackDelay;
-                break;
             default:
                 return -1111;
-                break;
         };
     }
 

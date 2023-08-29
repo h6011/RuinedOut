@@ -87,6 +87,10 @@ public class PlayerCtrl : MonoBehaviour
     /// 공격 딜레이를 확인 하기 위한 float
     /// </summary>
     private float AttackActionCurrTime;
+    /// <summary>
+    /// 공격 Raycast 를 위한 LayerMask
+    /// </summary>
+    [SerializeField] LayerMask attackLayerMask;
 
     #endregion
 
@@ -282,7 +286,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         Ray ray = CameraSettings.instance.MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Hand.Range))
+        if (Physics.Raycast(ray, out hit, Hand.Range, attackLayerMask))
         {
             if (hit.transform.CompareTag("Enemy"))
             {
