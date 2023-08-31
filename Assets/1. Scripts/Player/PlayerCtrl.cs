@@ -94,17 +94,34 @@ public class PlayerCtrl : MonoBehaviour
 
     #endregion
 
+    Animator animator;
+
+
     private void Awake()
     {
         Instance = this;
     }
 
+    private void Update()
+    {
+        PickUpAction();
+        EquipmentAttackAction();
+        InputCheck1();
+        HungryAndThirstyTickProcess();
+        AnimationAction();
+    }
 
     private void Start()
     {
         initManagerIns();
         AttackActionCurrTime = Time.time;
         R_Stats_TickCurrTime = Time.time;
+        animator = GetComponent<Animator>();
+    }
+
+    private void AnimationAction()
+    {
+
     }
 
     private void HungryAndThirstyAction()
@@ -125,13 +142,7 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        PickUpAction();
-        EquipmentAttackAction();
-        InputCheck1();
-        HungryAndThirstyTickProcess();
-    }
+    
     private void OnApplicationQuit()
     {
         inventory.Container.Clear();
@@ -262,7 +273,7 @@ public class PlayerCtrl : MonoBehaviour
     /// </summary>
     private void EquipmentAttackAction()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             if (Hand != null)
             {
@@ -284,6 +295,7 @@ public class PlayerCtrl : MonoBehaviour
 
     private void Attack()
     {
+        animator.Play("PlayerAttack");
         Ray ray = CameraSettings.instance.MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Hand.Range, attackLayerMask))
@@ -293,7 +305,7 @@ public class PlayerCtrl : MonoBehaviour
                 EnemyCtrl enemyCtrl = hit.transform.GetComponent<EnemyCtrl>();
                 enemyCtrl.Hp -= Hand.Damage;
                 enemyCtrl.GetAttackedEffect();
-                EffectMng.Instance.MakeEffect1(EffectType.Block1, hit.point, 4, 0.5f, 1);
+                EffectMng.Instance.MakeEffect1(EffectType.Block1, hit.point, Quaternion.identity, 4, 0.5f, 1);
             }
         }
     }

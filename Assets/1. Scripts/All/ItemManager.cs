@@ -66,11 +66,24 @@ public class ItemManager : MonoBehaviour
         GameObject[] New1 = Resources.LoadAll<GameObject>("Prefab/Item");
         foreach (var item in New1)
         {
-            Item _item = item.GetComponent<Item>();
-            if (_item && _item.item == itemObject)
+            Transform findRendering = item.transform.Find("Rendering");
+            if (findRendering)
             {
-                GameObject NewItem = Instantiate<GameObject>(item, parent);
-                return NewItem;
+                Item _item = findRendering.GetComponent<Item>();
+                if (_item && _item.item == itemObject)
+                {
+                    GameObject NewItem = Instantiate<GameObject>(item, parent);
+                    return NewItem;
+                }
+            }
+            else
+            {
+                Item _item = item.GetComponent<Item>();
+                if (_item && _item.item == itemObject)
+                {
+                    GameObject NewItem = Instantiate<GameObject>(item, parent);
+                    return NewItem;
+                }
             }
         }
         return null;

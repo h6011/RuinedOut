@@ -11,6 +11,7 @@ public class EnemyCtrl : MonoBehaviour
     public float Hp = 20;
 
     public bool isDead = false;
+    public bool isAttacking = false;
 
     NavMeshAgent navMeshAgent;
     CapsuleCollider capsuleCollider;
@@ -27,7 +28,14 @@ public class EnemyCtrl : MonoBehaviour
     {
         if (Target)
         {
-            navMeshAgent.SetDestination(Target.position);
+            if (isAttacking)
+            {
+                navMeshAgent.ResetPath();
+            }
+            else
+            {
+                navMeshAgent.SetDestination(Target.position);
+            }
         }
     }
 
@@ -77,7 +85,7 @@ public class EnemyCtrl : MonoBehaviour
     
     public void DeadFunctionForAniEvent()
     {
-        EffectMng.Instance.MakeEffect1(EffectType.Block1, transform.position, 8, 2f, 15f);
+        EffectMng.Instance.MakeEffect1(EffectType.Block1, transform.position, transform.rotation, 8, 2f, 15f);
         EnemyUIManager.instance.OnEnemyDead(gameObject);
         EnemyManager.instance.RemoveEnemy(gameObject);
     }
@@ -87,7 +95,13 @@ public class EnemyCtrl : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("EnemyDead");
         gameObject.tag = "EnemyDead";
         navMeshAgent.enabled = false;
-        animator.SetInteger("Ani", 3);
+
+        EffectMng.Instance.MakeEffect1(EffectType.Zombie1Dead, transform.position, transform.rotation, 1, 4f, 0f);
+        EnemyUIManager.instance.OnEnemyDead(gameObject);
+        EnemyManager.instance.RemoveEnemy(gameObject);
+
+
+        //animator.SetInteger("Ani", 3);
     }
 
     private void CheckHp()
@@ -112,6 +126,7 @@ public class EnemyCtrl : MonoBehaviour
                 if ((Time.time - enemyAttackCurrTick) >= enemyAttackTick)
                 {
                     enemyAttackCurrTick = Time.time;
+                    isAttacking = true;
                     animator.SetTrigger("Attack");
                 }
             }
@@ -183,21 +198,6 @@ public class EnemyCtrl : MonoBehaviour
         AnimationAction();
     }
 
-  
-
-     //private void OnCollisionEnter(Collision collision)
-     //{
-     //   Debug.Log(collision.transform.name);
-     //   if (collision.transform.CompareTag("Player"))
-     //   {
-     //       if ((Time.time - AttackTickCurr) >= AttackTick)
-     //       {
-     //           AttackPlayer(collision.transform);
-     //           AttackTickCurr = Time.time;
-     //       }
-     //   }
-     //}
-
 
     private void TryAttackPlayer()
     {
@@ -207,6 +207,11 @@ public class EnemyCtrl : MonoBehaviour
         {
             PlayerCtrl.Instance.Hp -= enemyAttackDamage;
         }
+    }
+
+    private void AttackEnd()
+    {
+        isAttacking = false;
     }
 
 }

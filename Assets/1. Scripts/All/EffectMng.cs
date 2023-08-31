@@ -6,6 +6,7 @@ public enum EffectType
 {
     EnemyDeadBody,
     Block1,
+    Zombie1Dead,
 }
 
 public class EffectMng : MonoBehaviour
@@ -32,24 +33,41 @@ public class EffectMng : MonoBehaviour
         }
     }
 
+    IEnumerator DisappearEffect2(GameObject obj, float Duration_)
+    {
+        float timer = 0.0f;
+
+        while (timer <= 1.0f)
+        {
+            timer += Time.deltaTime / Duration_;
+            obj.transform.position += new Vector3(0, -Time.deltaTime / Duration_, 0);
+
+            yield return null;
+        }
+    }
+
     IEnumerator LiveTimeAction(GameObject obj, string poolingObjname, float Time_)
     {
         yield return new WaitForSeconds(Time_);
         PoolingMng.Instance.RemoveObj(obj, poolingObjname);
     }
 
-    public void MakeEffect1(EffectType effectType, Vector3 position, int amount, float liveTime, float power)
+    public void MakeEffect1(EffectType effectType, Vector3 position, Quaternion quaternion, int amount, float liveTime, float power)
     {
         for (int i = 0; i < amount; i++)
         {
             GameObject newobj = PoolingMng.Instance.CreateObj(effectType.ToString(), transform);
             newobj.layer = LayerMask.NameToLayer("Effect");
             newobj.transform.position = position;
+            newobj.transform.rotation = quaternion;
 
             MeshRenderer ren = newobj.GetComponent<MeshRenderer>();
-            Material mat = ren.material;
-            ren.material = Instantiate(mat);
-            mat = ren.material;
+            if (ren)
+            {
+                Material mat = ren.material;
+                ren.material = Instantiate(mat);
+                mat = ren.material;
+            }
 
             Rigidbody rb = newobj.GetComponent<Rigidbody>();
             if (rb != null)
@@ -59,6 +77,11 @@ public class EffectMng : MonoBehaviour
             if (effectType == EffectType.Block1)
             {
                 StartCoroutine(DisappearEffect1(newobj, liveTime, effectType.ToString()));
+                StartCoroutine(LiveTimeAction(newobj, effectType.ToString(), liveTime));
+            }
+            else if (effectType == EffectType.Zombie1Dead)
+            {
+                StartCoroutine(DisappearEffect2(newobj, liveTime));
                 StartCoroutine(LiveTimeAction(newobj, effectType.ToString(), liveTime));
             }
             else
