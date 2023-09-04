@@ -42,13 +42,20 @@ public class ItemInfoUI : MonoBehaviour
         img.sprite = sprite;
     }
 
-    public void ShowItemInfo(ItemObject itemObject)
+    public void ClickedBackgroundBorder()
     {
-        ChangeItemNameText(itemObject.name);
+        Debug.Log("ClickedBackgroundBorder");
+        itemObject = null;
+        CanvasManager.instance.ItemInfoUI.SetActive(false);
+    }
+
+    public void ShowItemInfo(ItemObject targetitemObject)
+    {
+        ChangeItemNameText(targetitemObject.name);
 
         Transform StatUI_ = transform.Find("Stat");
 
-        Sprite imgsprite = Resources.Load<Sprite>("Sprites/" + itemObject.name);
+        Sprite imgsprite = Resources.Load<Sprite>("Sprites/" + targetitemObject.name);
         if (imgsprite)
         {
             ChangeImg(imgsprite);
@@ -61,12 +68,12 @@ public class ItemInfoUI : MonoBehaviour
 
         string[] list1 = new string[] {};
 
-        if (itemObject.ItemType == ItemType.Food)
+        if (targetitemObject.ItemType == ItemType.Food)
         {
             ChangeBtnText("Eat");
             list1 = statsForFood;
         }
-        else if (itemObject.ItemType == ItemType.Equipment)
+        else if (targetitemObject.ItemType == ItemType.Equipment)
         {
             ChangeBtnText("Equip");
             list1 = statsForEquipment;
@@ -92,7 +99,7 @@ public class ItemInfoUI : MonoBehaviour
                 TMP_Text Text_ = CStat.Find("Text").GetComponent<TMP_Text>();
 
                 CStat.gameObject.SetActive(true);
-                Text_.text = itemObject.GetStatFromName(v.name).ToString();
+                Text_.text = targetitemObject.GetStatFromName(v.name).ToString();
 
             }
             else
@@ -100,6 +107,8 @@ public class ItemInfoUI : MonoBehaviour
                 StatUI_.Find(v.name).gameObject.SetActive(false);
             }
         } // Equipment, Food 일떄 특정 텍스트만 보이게하는
+
+
     }
 
 }

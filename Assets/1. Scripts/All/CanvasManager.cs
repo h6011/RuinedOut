@@ -19,10 +19,14 @@ public class CanvasManager : MonoBehaviour
     public GameObject InventoryUI;
     public GameObject ItemInfoUI;
     public GameObject StatInfoUI;
+    public GameObject BackgroundBorderUI;
+    public GameObject DeathScreenUI;
+    public GameObject EnemyUIHolder;
 
 
 
-  
+
+
 
     private void Awake()
     {
@@ -38,6 +42,7 @@ public class CanvasManager : MonoBehaviour
     private void Update()
     {
         ShowStats();
+        BackgroundBorderUI.SetActive(InventoryUI.activeSelf);
     }
     
 
