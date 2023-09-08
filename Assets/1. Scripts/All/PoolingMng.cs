@@ -17,6 +17,8 @@ public enum PoolingObj
 
     EnemyDeadBody,
     Block1,
+    
+    Zombie1,
 
 }
 
