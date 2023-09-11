@@ -94,6 +94,8 @@ public class PlayerCtrl : MonoBehaviour
 
     #endregion
 
+    public bool IsDead = false;
+
     Animator animator;
 
 
@@ -104,6 +106,7 @@ public class PlayerCtrl : MonoBehaviour
 
     private void Update()
     {
+        CheckHp();
         PickUpAction();
         EquipmentAttackAction();
         InputCheck1();
@@ -117,6 +120,34 @@ public class PlayerCtrl : MonoBehaviour
         AttackActionCurrTime = Time.time;
         R_Stats_TickCurrTime = Time.time;
         animator = GetComponent<Animator>();
+    }
+
+    IEnumerator MakeGetAttackedEffect()
+    {
+        CameraShake.instance.CameraShake1(0, 0);
+        yield return null;
+    }
+
+    
+
+    private void CheckHp()
+    {
+        if (Hp <= 0)
+        {
+            if (IsDead == false)
+            {
+                IsDead = true;
+
+            }
+        }
+    }
+
+    public void GetAttackedEffect()
+    {
+        if (Hp > 0)
+        {
+            StartCoroutine(MakeGetAttackedEffect());
+        }
     }
 
     private void AnimationAction()

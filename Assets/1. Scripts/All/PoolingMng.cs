@@ -98,6 +98,11 @@ public class PoolingMng : MonoBehaviour
 
         if (isThere)
         {
+            EnemyCtrl enemyCtrl = isThere.transform.GetComponent<EnemyCtrl>();
+            if (enemyCtrl)
+            {
+                enemyCtrl.DoWhenAlive();
+            }
             isThere.gameObject.SetActive(true);
             isThere.SetParent(Parent);
         }

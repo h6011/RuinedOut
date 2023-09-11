@@ -37,6 +37,8 @@ public class EnemyManager : MonoBehaviour
         {
             int Count = enemyList.Count;
 
+
+
             if (Count < MaxRandomEnemySpawn)
             {
                 Vector3 Pos = ZombieSpawnRegion.transform.position + new Vector3(
@@ -125,7 +127,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject SpawnEnemy(string Name, bool HaveToReturn = false)
     {
         GameObject NewEnemy = PoolingMng.Instance.CreateObj(Name, transform);
-        NewEnemy.name = "New Enemy";
+        NewEnemy.name = Name;
         enemyList.Add(NewEnemy);
         EnemyUIManager.instance.OnEnemySpawned(NewEnemy);
         if (HaveToReturn)
@@ -141,7 +143,7 @@ public class EnemyManager : MonoBehaviour
     public void RemoveEnemy(GameObject enemyObj)
     {
         enemyList.Remove(enemyObj);
-        Destroy(enemyObj);
+        PoolingMng.Instance.RemoveObj(enemyObj, enemyObj.name);
     }
 
 }

@@ -6,18 +6,22 @@ using UnityEngine.AI;
 
 public class EnemyCtrl : MonoBehaviour
 {
-    public Transform Target;
-    public float MaxHp = 20;
-    public float Hp = 20;
+    [Tooltip("Enemy's Target")] public Transform Target;
 
-    public bool isDead = false;
-    public bool isAttacking = false;
+    [Header("Enemy's Stat")]
+    [Tooltip("MaxHp Of Enemy")] public float MaxHp = 20;
+    [Tooltip("Hp Of Enemy")] public float Hp = 20;
+    [Tooltip("WalkSpeed Of Enemy")] [SerializeField] private float WalkSpeed = 4.0f; // 걷는 속도
+
+    [HideInInspector] public bool isDead = false;
+    [HideInInspector] public bool isAttacking = false;
 
     NavMeshAgent navMeshAgent;
     CapsuleCollider capsuleCollider;
     Animator animator;
 
-    private float enemyCanFindDistance = 10.0f; // 좀비 시야
+
+    private float enemyCanFindDistance = 25.0f; // 좀비 시야
     private float enemyAttackTick = 2.0f; // 몇초 간격으로 때리게 할건지
     private float enemyAttackCurrTick = 0.0f; // 건드리지 마세요!
     private float enemyAttackDamage = 4.0f; // 
@@ -49,10 +53,21 @@ public class EnemyCtrl : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = AllowedDistance;
+        navMeshAgent.speed = WalkSpeed;
         navMeshAgent.enabled = true;
+        Hp = MaxHp;
 
         animator = GetComponent<Animator>();
+    }
 
+    public void DoWhenAlive()
+    {
+        Hp = MaxHp;
+        isDead = false;
+        isAttacking = false;
+        navMeshAgent.enabled = true;
+        gameObject.layer = LayerMask.NameToLayer("Enemy");
+        gameObject.tag = "Enemy";
     }
 
     private void MoveAction()
@@ -201,11 +216,11 @@ public class EnemyCtrl : MonoBehaviour
 
     private void TryAttackPlayer()
     {
-        Debug.Log("TryAttack");
         float Dis = Vector3.Distance(transform.position, Target.position);
         if (Dis <= enemyAttackDistance)
         {
             PlayerCtrl.Instance.Hp -= enemyAttackDamage;
+            PlayerCtrl.Instance.GetAttackedEffect();
         }
     }
 
