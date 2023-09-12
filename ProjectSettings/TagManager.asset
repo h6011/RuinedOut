@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Item
   - Enemy
-  - EnemyDead
+  - Deadbody
   layers:
   - Default
   - TransparentFX
@@ -17,7 +17,7 @@ TagManager:
   - Player
   - Item
   - Effect
-  - EnemyDead
+  - Deadbody
   - Enemy
   - 
   - 

@@ -16,6 +16,7 @@ public enum PoolingObj
     ItemFrame,
 
     EnemyDeadBody,
+    PlayerDeadBody,
     Block1,
     
     Zombie1,

@@ -42,61 +42,44 @@ public class PlayerCtrl : MonoBehaviour
 
     #region 인벤토리 관련 변수들
 
-    /// <summary>
-    /// 플레이어의 인벤토리
-    /// </summary>
+    // 플레이어의 인벤토리
     [Space]
     public InventoryObject inventory;
-    /// <summary>
-    /// 플레이어가 현재 장착한 무기나 음식 (ItemObject)
-    /// </summary>
+    // 플레이어가 현재 장착한 무기나 음식 (ItemObject)
     public ItemObject Hand;
-    /// <summary>
-    /// Hand 의 GameObject
-    /// </summary>
+    // Hand 의 GameObject
     [HideInInspector] public GameObject HandObject;
-    /// <summary>
-    /// 플레이어의 GameObject
-    /// </summary>
+    // 플레이어의 GameObject
     public GameObject PlayerObject;
-    /// <summary>
-    /// 플레이어가 장착할시 Hand의 GameObject가 들어갈 GameObject
-    /// </summary>
+    // 플레이어가 장착할시 Hand의 GameObject가 들어갈 GameObject
     public GameObject Grip;
 
     #endregion
 
     #region 줍는 함수 관련 변수들
 
-    /// <summary>
-    /// 플레이어가 아이템을 주울수 있는 범위(Range)
-    /// </summary>
+    // 플레이어가 아이템을 주울수 있는 범위(Range)
     [Space]
     [Header("Pickup Stat")]
     [SerializeField] float PickUpRange = 3.5f;
-    /// <summary>
-    /// Pickup Raycast LayerMask
-    /// </summary>
+
+    // Pickup Raycast LayerMask
     [SerializeField] LayerMask PickupLayerMask;
     #endregion
 
     #region 플레이어 공격 함수 관련 변수들
 
     [Header("Attack Stat")]
-    /// <summary>
-    /// 공격 딜레이를 확인 하기 위한 float
-    /// </summary>
+    // 공격 딜레이를 확인 하기 위한 float
     private float AttackActionCurrTime;
-    /// <summary>
-    /// 공격 Raycast 를 위한 LayerMask
-    /// </summary>
+    // 공격 Raycast 를 위한 LayerMask
     [SerializeField] LayerMask attackLayerMask;
 
     #endregion
 
-    public bool IsDead = false;
+    [HideInInspector] public bool IsDead = false;
 
-    Animator animator;
+    private Animator animator;
 
 
     private void Awake()
@@ -122,12 +105,21 @@ public class PlayerCtrl : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    IEnumerator MakeGetAttackedEffect()
+    private void MakeGetAttackedEffect()
     {
-        CameraShake.instance.CameraShake1(0, 0);
-        yield return null;
+        StartCoroutine(CameraShake.instance.CameraRightUpShake1());
     }
 
+    private void OnDead()
+    {
+        
+    }
+
+    public void DoWhenAlive()
+    {
+        Hp = MaxHp;
+        IsDead = false;
+    }
     
 
     private void CheckHp()
@@ -137,7 +129,7 @@ public class PlayerCtrl : MonoBehaviour
             if (IsDead == false)
             {
                 IsDead = true;
-
+                OnDead();
             }
         }
     }
@@ -146,7 +138,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         if (Hp > 0)
         {
-            StartCoroutine(MakeGetAttackedEffect());
+            MakeGetAttackedEffect();
         }
     }
 

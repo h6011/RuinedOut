@@ -107,8 +107,8 @@ public class EnemyCtrl : MonoBehaviour
 
     private void Dead()
     {
-        gameObject.layer = LayerMask.NameToLayer("EnemyDead");
-        gameObject.tag = "EnemyDead";
+        gameObject.layer = LayerMask.NameToLayer("Deadbody");
+        gameObject.tag = "Deadbody";
         navMeshAgent.enabled = false;
 
         EffectMng.Instance.MakeEffect1(EffectType.Zombie1Dead, transform.position, transform.rotation, 1, 4f, 0f);

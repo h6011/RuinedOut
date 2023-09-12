@@ -5,6 +5,7 @@ using UnityEngine;
 public enum EffectType
 {
     EnemyDeadBody,
+    PlayerDeadBody,
     Block1,
     Zombie1Dead,
 }
@@ -79,7 +80,7 @@ public class EffectMng : MonoBehaviour
                 StartCoroutine(DisappearEffect1(newobj, liveTime, effectType.ToString()));
                 StartCoroutine(LiveTimeAction(newobj, effectType.ToString(), liveTime));
             }
-            else if (effectType == EffectType.Zombie1Dead)
+            else if (effectType == EffectType.Zombie1Dead || effectType == EffectType.PlayerDeadBody)
             {
                 StartCoroutine(DisappearEffect2(newobj, liveTime));
                 StartCoroutine(LiveTimeAction(newobj, effectType.ToString(), liveTime));

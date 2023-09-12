@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7183120253653449452}
   - component: {fileID: 732516093765331183}
   - component: {fileID: 3632623876763872367}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EnemyDeadBody
-  m_TagString: Enemy
+  m_TagString: Deadbody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
